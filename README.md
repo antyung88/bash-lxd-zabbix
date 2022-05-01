@@ -16,6 +16,6 @@ sudo nano zabbix.sh
 ```
 Deploy
 ```
-chmod +x zabbix.sh
+sudo chmod +x zabbix.sh
 ./zabbix.sh
 ```
