@@ -2,7 +2,7 @@
 
 # Lets define some variables.
 export HOST="zabbix.example.com"
-export EMAIL="hello@example.com"
+export EMAIL="hello@example.com" #Certbot
 export PROXY_CONTAINER="proxy"
 export ZABBIX_CONTAINER="zabbix"
 export DB_NAME="zabbix"
