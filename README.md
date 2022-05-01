@@ -6,6 +6,11 @@ Install Zabbix in LXC behind Nginx Reverse Proxy
 - LXD init
 - FQDN
 
+# Installation
+- Proxy Container (Nginx Reverse Proxy)
+- Zabbix Container 
+- Let's Encrypt
+
 # Usage
 ```
 git clone https://github.com/antyung88/lxd-zabbix.git && cd lxd-zabbix
