@@ -20,7 +20,9 @@ then
   exit 1
 fi
 
-if ! command lxd &> /dev/null 2>&1 || { echo >&2 "LXD is not installed. Aborting!" ; exit 1; }
+# Check if snap is installed
+
+if ! command lxd &> /dev/null 2>&1 || { echo >&2 "LXD is not installed. Installing!" ; apt install snapd && snap install lxd; }
 then
 
 if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
