@@ -20,7 +20,7 @@ then
   exit 1
 fi
 
-if ! command lxc &> /dev/null 2>&1 || { echo >&2 "LXD/LXC is not installed. Aborting!" ; exit 1; }
+if ! command lxd &> /dev/null 2>&1 || { echo >&2 "LXD is not installed. Aborting!" ; exit 1; }
 then
 
 if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
