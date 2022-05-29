@@ -158,7 +158,7 @@ EOF
 
 # Let's Encrypt
 echo 'Installing Certbot'
-cat <<EOF| lxc exec ${PROXY_CONTAINER} bash | grep "Unable to register an account with ACME server." &> /dev/null
+cat <<EOF| lxc exec ${PROXY_CONTAINER} bash | grep "Unable" &> /dev/null
 snap install certbot --classic
 echo 'Generating Certificates'
 certbot --nginx -d ${HOST} -m ${EMAIL} --agree-tos -n
