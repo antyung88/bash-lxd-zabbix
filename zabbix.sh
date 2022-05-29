@@ -23,6 +23,12 @@ fi
 if command -v lxd &> /dev/null 2>&1 || { echo >&2 "LXD/LXC not installed. Aborting!" ; exit 1; }
 then
 
+if command --dump lxd init | grep -q 'networks: []';
+then
+  echo "LXD not initialize. Aborting!"
+  exit 1
+  
+
 if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
 then
     echo "${PROXY_CONTAINER} container could not be found"
@@ -35,6 +41,7 @@ then
     echo "${ZABBIX_CONTAINER} container could not be found"
     # Create a proxy Ubuntu:20.04 container.
     lxc launch 'ubuntu:20.04' ${ZABBIX_CONTAINER}
+fi
 fi
 fi
 
