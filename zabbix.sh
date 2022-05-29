@@ -63,8 +63,8 @@ echo "Installing Nginx"
 apt-get install nginx -y
 cat <<\EOF_C >/etc/nginx/sites-available/zabbix
 server {
-        listen 80 proxy_protocol;
-        listen [::]:80 proxy_protocol;
+        listen 80;
+        listen [::]:80;
         server_name ${HOST};
         location / {
                 proxy_set_header Host \$host;
