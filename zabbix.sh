@@ -158,17 +158,9 @@ EOF
 
 # Let's Encrypt
 echo 'Installing Certbot'
-cat <<EOF| lxc exec ${PROXY_CONTAINER} bash | grep "Unable" &> /dev/null
+cat <<EOF| lxc exec ${PROXY_CONTAINER} bash
 snap install certbot --classic
 echo 'Generating Certificates'
 certbot --nginx -d ${HOST} -m ${EMAIL} --agree-tos -n
 systemctl restart nginx
 EOF
-if [ $? == 0 ]; then
-   echo "Installation complete!"
-   exit 1
-else
-   echo "Unable to register an account with ACME server. Uninstalling!"
-   lxc stop ${PROXY_CONTAINER} && lxc delete ${PROXY_CONTAINER}
-   lxc stop ${ZABBIX_CONTAINER} && lxc delete ${ZABBIX_CONTAINER}
-fi
