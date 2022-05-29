@@ -97,7 +97,7 @@ wget https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix
 dpkg -i /tmp/zabbix-release_5.2-1+ubuntu20.04_all.deb
 apt-get update
 apt-get install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-agent -y
-echo "Create Zabbix Tables"
+echo "Creating Zabbix Tables"
 zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME}
 echo "Configuring Nginx"
 rm /etc/zabbix/nginx.conf
