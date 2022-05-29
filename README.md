@@ -22,5 +22,6 @@ sudo nano zabbix.sh
 Deploy
 ```
 sudo chmod +x zabbix.sh
+sudo su
 ./zabbix.sh
 ```
