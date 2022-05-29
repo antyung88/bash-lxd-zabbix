@@ -151,6 +151,26 @@ EOF_C
 rm /etc/nginx/sites-available/default
 rm /etc/nginx/sites-enabled/default
 ln -s /etc/zabbix/nginx.conf /etc/nginx/sites-enabled/zabbix
+mv /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.bak
+
+echo "Configuring Zabbix Server"
+cat <<\EOF_C >/etc/zabbix/zabbix_server.conf
+LogFile=/var/log/zabbix/zabbix_server.log
+LogFileSize=0
+PidFile=/run/zabbix/zabbix_server.pid
+SocketDir=/run/zabbix
+DBName=${DB_NAME}
+DBUser=${DB_USER}
+DBPassword=${DB_PASS}
+SNMPTrapperFile=/var/log/snmptrap/snmptrap.log
+Timeout=4
+FpingLocation=/usr/bin/fping
+Fping6Location=/usr/bin/fping6
+LogSlowQueries=3000
+StatsAllowedIP=127.0.0.1
+EOF_C
+
+echo "Restarting Services"
 systemctl restart zabbix-server zabbix-agent nginx php7.4-fpm
 EOF
 
@@ -162,3 +182,4 @@ echo 'Generating Certificates'
 certbot --nginx -d ${HOST} -m ${EMAIL} --agree-tos -n
 systemctl restart nginx
 EOF
+
