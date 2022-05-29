@@ -4,7 +4,7 @@ Install Zabbix in LXC behind Nginx Reverse Proxy
 # Prerequisites
 - Ubuntu 20.04 (Recommended)
 - Sudo Privilieges
-- LXD/LXC Initialize
+- LXD/LXC Initialized
 - FQDN
 
 # Installation
