@@ -16,7 +16,7 @@ export DB_PASS="zabbix"
 # Check if root
 if [ "$(whoami)" != "root" ]
 then
-  echo "script must be executed as root!"
+  echo "Script must be executed as root. Aborting!"
   exit 1
 fi
 
