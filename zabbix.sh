@@ -72,8 +72,6 @@ server {
                 proxy_set_header X-Forwarded-Proto \$scheme;
                 proxy_pass http://${ZABBIX_CONTAINER}.lxd;
         }
-        real_ip_header proxy_protocol;
-        set_real_ip_from 127.0.0.1;
 }
 EOF_C
 rm /etc/nginx/sites-available/default
