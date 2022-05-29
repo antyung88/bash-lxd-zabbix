@@ -20,25 +20,31 @@ then
   exit 1
 fi
 
+echo "Root privilege test passed"
+
 if command -v lxd &> /dev/null 2>&1 || { echo >&2 "LXD/LXC not installed. Aborting!" ; exit 1; }
 then
 
-if command --dump lxd init | grep -q 'networks: []';
-then
-  echo "LXD not initialize. Aborting!"
-  exit 1
-  
+echo "LXD/LXC installation test passed"
+
+lxd init --dump | grep "networks: \[]" &> /dev/null
+if [ $? == 0 ]; then
+   echo "LXD not initialize. Aborting!"
+   exit 1
+else
+
+echo "LXD initialization test passed"
 
 if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
 then
-    echo "${PROXY_CONTAINER} container could not be found"
+    echo "${PROXY_CONTAINER} namespace test passed"
     # Create a proxy Ubuntu:20.04 container.
     lxc launch 'ubuntu:20.04' ${PROXY_CONTAINER}
 fi
 
-if ! command lxc info ${ZABBIX_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${ZABBIX_CONTAINER} container namespace exists. Aborting" ; exit 1; }
+if ! command lxc info ${ZABBIX_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${ZABBIX_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
 then
-    echo "${ZABBIX_CONTAINER} container could not be found"
+    echo "${ZABBIX_CONTAINER} namespace test passed"
     # Create a proxy Ubuntu:20.04 container.
     lxc launch 'ubuntu:20.04' ${ZABBIX_CONTAINER}
 fi
@@ -149,11 +155,20 @@ rm /etc/nginx/sites-enabled/default
 ln -s /etc/zabbix/nginx.conf /etc/nginx/sites-enabled/zabbix
 systemctl restart zabbix-server zabbix-agent nginx php7.4-fpm
 EOF
+
 # Let's Encrypt
 echo 'Installing Certbot'
-cat <<EOF| lxc exec ${PROXY_CONTAINER} bash
+cat <<EOF| lxc exec ${PROXY_CONTAINER} bash | grep "Unable to register an account with ACME server." &> /dev/null
 snap install certbot --classic
 echo 'Generating Certificates'
 certbot --nginx -d ${HOST} -m ${EMAIL} --agree-tos -n
 systemctl restart nginx
 EOF
+if [ $? == 0 ]; then
+   echo "Installation complete!"
+   exit 1
+else
+   echo "Unable to register an account with ACME server. Uninstalling!"
+   lxc stop ${PROXY_CONTAINER} && lxc delete ${PROXY_CONTAINER}
+   lxc stop ${ZABBIX_CONTAINER} && lxc delete ${ZABBIX_CONTAINER}
+fi
