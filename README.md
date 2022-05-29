@@ -35,3 +35,7 @@ Deploy
 chmod +x zabbix.sh
 ./zabbix.sh
 ```
+
+# Login
+
+The default user is Admin and the password is zabbix.
