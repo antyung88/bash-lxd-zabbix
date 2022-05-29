@@ -13,8 +13,13 @@ export DB_PASS="zabbix"
 # Nothing below this point should need to be modified.
 #
 
-# Create a proxy Ubuntu:20.04 container.
-lxc launch 'ubuntu:20.04' ${PROXY_CONTAINER}
+if ! command lxc info ${PROXY_CONTAINER} &> /dev/null
+then
+    echo "${PROXY_CONTAINER} could not be found"
+    # Create a proxy Ubuntu:20.04 container.
+    lxc launch 'ubuntu:20.04' ${PROXY_CONTAINER}
+fi
+
 # Create a proxy Ubuntu:20.04 container.
 lxc launch 'ubuntu:20.04' ${ZABBIX_CONTAINER}
 
