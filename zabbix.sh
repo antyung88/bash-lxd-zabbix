@@ -20,12 +20,8 @@ then
   exit 1
 fi
 
-# Check lxd installation
-if ! command lxc
+if ! command lxc &> /dev/null 2>&1 || { echo >&2 "LXD/LXC is not installed. Aborting!" ; exit 1; }
 then
-  echo "LXD/LXC is not installed. Aborting!"
-  return 2
-fi
 
 if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
 then
@@ -39,6 +35,7 @@ then
     echo "${ZABBIX_CONTAINER} container could not be found"
     # Create a proxy Ubuntu:20.04 container.
     lxc launch 'ubuntu:20.04' ${ZABBIX_CONTAINER}
+fi
 fi
 
 lxc config device add ${PROXY_CONTAINER} myport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80
