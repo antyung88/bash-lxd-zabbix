@@ -27,8 +27,6 @@ then
   return 2
 fi
 
-if ! command lxd 
-
 if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
 then
     echo "${PROXY_CONTAINER} container could not be found"
