@@ -13,7 +13,23 @@ export DB_PASS="zabbix"
 # Nothing below this point should need to be modified.
 #
 
-if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting" ; exit 1; }
+# Check if root
+if [ "$(whoami)" != "root" ]
+then
+  echo "script must be executed as root!"
+  exit 1
+fi
+
+# Check lxd installation
+if ! command lxc
+then
+  echo "LXD/LXC is not installed. Aborting!"
+  return 2
+fi
+
+if ! command lxd 
+
+if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting!" ; exit 1; }
 then
     echo "${PROXY_CONTAINER} container could not be found"
     # Create a proxy Ubuntu:20.04 container.
