@@ -13,15 +13,19 @@ export DB_PASS="zabbix"
 # Nothing below this point should need to be modified.
 #
 
-if ! command lxc info ${PROXY_CONTAINER} &> /dev/null
+if ! command lxc info ${PROXY_CONTAINER} &> /dev/null 2>$1 || { echo >&2 "${PROXY_CONTAINER} container namespace exists. Aborting" ; exit 1; }
 then
-    echo "${PROXY_CONTAINER} could not be found"
+    echo "${PROXY_CONTAINER} container could not be found"
     # Create a proxy Ubuntu:20.04 container.
     lxc launch 'ubuntu:20.04' ${PROXY_CONTAINER}
 fi
 
-# Create a proxy Ubuntu:20.04 container.
-lxc launch 'ubuntu:20.04' ${ZABBIX_CONTAINER}
+if ! command lxc info ${ZABBIX_CONTAINER} &> /dev/null 2>&1 || { echo >&2 "${ZABBIX_CONTAINER} container namespace exists. Aborting" ; exit 1; }
+then
+    echo "${ZABBIX_CONTAINER} container could not be found"
+    # Create a proxy Ubuntu:20.04 container.
+    lxc launch 'ubuntu:20.04' ${ZABBIX_CONTAINER}
+fi
 
 lxc config device add ${PROXY_CONTAINER} myport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80
 lxc config device add ${PROXY_CONTAINER} myport443 proxy listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443
