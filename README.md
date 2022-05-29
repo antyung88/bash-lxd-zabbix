@@ -14,7 +14,7 @@ Install Zabbix in LXC behind Nginx Reverse Proxy
 
 # Usage
 ```
-git clone https://github.com/antyung88/lxd-zabbix.git && cd lxd-zabbix
+git clone https://github.com/antyung88/bash-lxd-zabbix.git && cd bash-lxd-zabbix
 ```
 Edit variables
 ```
