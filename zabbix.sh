@@ -2,16 +2,12 @@
 
 # Lets define some variables.
 export HOST="zabbix.example.com"
-export EMAIL="hello@example.com" #Certbot
+# export EMAIL="hello@example.com" ## MODIFY CERTBOT AT THE BOTTOM OF THIS SCRIPT ##
 export PROXY_CONTAINER="proxy"
 export ZABBIX_CONTAINER="zabbix"
 export DB_NAME="zabbix"
 export DB_USER="zabbix"
 export DB_PASS="zabbix"
-
-#
-# Nothing below this point should need to be modified.
-#
 
 # Check if root
 if [ "$(whoami)" != "root" ]
@@ -174,12 +170,22 @@ echo "Restarting Services"
 systemctl restart zabbix-server zabbix-agent nginx php7.4-fpm
 EOF
 
-# Let's Encrypt
-echo 'Installing Certbot'
-cat <<EOF| lxc exec ${PROXY_CONTAINER} bash
-snap install certbot --classic
-echo 'Generating Certificates'
-certbot --nginx -d ${HOST} -m ${EMAIL} --agree-tos -n
-systemctl restart nginx
-EOF
+## Testing ##
 
+echo "Testing if services are up"
+lxc list "${PROXY_CONTAINER}" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}' > PROXY
+lxc list "${ZABBIX_CONTAINER}" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}' > ZABBIX
+export PROXY=$(cat PROXY)
+export ZABBIX=$(cat ZABBIX)
+curl --fail ${PROXY} || exit 1
+curl --fail ${ZABBIX} || exit 1
+echo "Services are up"
+
+# Let's Encrypt
+# echo 'Installing Certbot'
+# cat <<EOF| lxc exec ${PROXY_CONTAINER} bash
+# snap install certbot --classic
+# echo 'Generating Certificates'
+# certbot --nginx -d ${HOST} -m ${EMAIL} --agree-tos -n
+# systemctl restart nginx
+# EOF
