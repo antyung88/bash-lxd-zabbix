@@ -5,7 +5,8 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  Build:
+    name: Test Build Bash Script
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
