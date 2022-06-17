@@ -15,4 +15,4 @@ jobs:
       - name: Launch instance
         run: |
           sudo chmod +x ./zabbix.sh
-          ././zabbix.sh
+          sudo ././zabbix.sh
