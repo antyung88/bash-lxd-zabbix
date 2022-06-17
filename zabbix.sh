@@ -179,6 +179,8 @@ export PROXY=$(cat PROXY)
 export ZABBIX=$(cat ZABBIX)
 curl --fail ${PROXY} || exit 1
 curl --fail ${ZABBIX} || exit 1
+echo "${ZABBIX} ${HOST}" >> /etc/hosts
+curl --fail ${HOST} || exit 1
 echo "Services are up"
 
 # Let's Encrypt
