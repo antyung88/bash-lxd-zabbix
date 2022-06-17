@@ -14,4 +14,5 @@ jobs:
           channel: latest/stable
       - name: Launch instance
         run: |
-          lxc launch ubuntu:20.04 test
+          sudo chmod +x ./zabbix.sh
+          ././zabbix.sh
