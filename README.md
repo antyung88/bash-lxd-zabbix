@@ -1,4 +1,4 @@
-# lxd-zabbix
+# lxd-zabbix [![Test Bash Script](https://github.com/antyung88/bash-lxd-zabbix/actions/workflows/master.yml/badge.svg)](https://github.com/antyung88/bash-lxd-zabbix/actions/workflows/master.yml)
 Install Zabbix in LXC behind Nginx Reverse Proxy
 
 ```
