@@ -180,7 +180,7 @@ export ZABBIX=$(cat ZABBIX)
 curl --fail ${PROXY} || exit 1
 curl --fail ${ZABBIX} || exit 1
 echo "${PROXY} ${HOST}" >> /etc/hosts
-curl --fail ${HOST} || exit 1
+curl -Ls --fail ${HOST} | grep -oP setup.php
 curl ${HOST} -v
 echo "Services are up"
 
