@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: antyung88/gh-actions-lxd@v2
+      - uses: antyung88/gh-actions-lxd@v1
         with:
           channel: latest/stable
       - name: Launch instance
